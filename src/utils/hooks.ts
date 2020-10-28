@@ -1,19 +1,24 @@
-import React from "react";
-import { useUpdateSinglePost } from "./news";
+import React, { useContext } from "react";
+import { PostContext } from "../post-context";
 
 function useVote(score: number, id: string) {
   const [votes, setVotes] = React.useState<number>(score);
-  const [toggle, setToggle] = React.useState<"up" | "down" | null>(null);
+  const [toggle, setToggle] = React.useState<"up" | "down" | "none">("none");
 
-  const data = useUpdateSinglePost(id);
-  console.log(data);
+  const { dispatch, state } = useContext(PostContext);
+
+  React.useEffect(() => {
+    if (state[id]) {
+      setToggle(state[id].vote);
+    }
+  }, [id, state]);
+
   function upvote() {
     if (toggle !== "up") {
       setVotes(score + 1);
-      setToggle("up");
-      data();
+      dispatch({ type: "up", payload: { id } });
     } else {
-      setToggle(null);
+      dispatch({ type: "none", payload: { id } });
       setVotes(score);
     }
   }
@@ -21,9 +26,9 @@ function useVote(score: number, id: string) {
   function downvote() {
     if (toggle !== "down") {
       setVotes(score - 1);
-      setToggle("down");
+      dispatch({ type: "down", payload: { id } });
     } else {
-      setToggle(null);
+      dispatch({ type: "none", payload: { id } });
       setVotes(score);
     }
   }
@@ -31,12 +36,4 @@ function useVote(score: number, id: string) {
   return { votes, upvote, downvote, toggle };
 }
 
-function usePrevious(value: string | null) {
-  const ref = React.useRef<string | null>();
-  React.useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
-export { useVote, usePrevious };
+export { useVote };

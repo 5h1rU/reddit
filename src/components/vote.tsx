@@ -20,7 +20,7 @@ function Vote({ score, id }: { score: number; id: string }) {
           toggle === "down" ? "blue" : toggle === "up" ? "green" : "gray"
         }-400`}
       >
-        {votes}
+        {votes || score}
       </span>
       <button className="m-auto text-xs" onClick={() => downvote()}>
         <svg

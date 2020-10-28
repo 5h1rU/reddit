@@ -4,8 +4,8 @@ import { Vote } from "./vote";
 import placeholder from "../assets/reddit.png";
 import { Link } from "react-router-dom";
 
-interface NewsRowInterface {
-  newsItem: {
+interface IPostRow {
+  postItem: {
     author_fullname: string;
     id: string;
     title: string;
@@ -18,10 +18,11 @@ interface NewsRowInterface {
     num_comments: number;
     score: number;
     permalink: string;
+    votePreference: string;
   };
 }
 
-function NewsRow({ newsItem }: NewsRowInterface) {
+function PostRow({ postItem }: IPostRow) {
   const {
     author_fullname,
     id,
@@ -35,7 +36,7 @@ function NewsRow({ newsItem }: NewsRowInterface) {
     num_comments,
     score,
     permalink,
-  } = newsItem;
+  } = postItem;
 
   const placeholderFallback = () => {
     if (thumbnail !== "self" || "nsfw" || "default") {
@@ -45,7 +46,7 @@ function NewsRow({ newsItem }: NewsRowInterface) {
     }
   };
   return (
-    <div className="flex w-2/3 bg-white border rounded">
+    <div className="flex w-full bg-white border rounded">
       <div className="flex flex-col w-1/12 pt-2 text-center">
         <Vote score={score} id={id}></Vote>
       </div>
@@ -62,16 +63,16 @@ function NewsRow({ newsItem }: NewsRowInterface) {
             </a>
           </h2>
           <small className="text-gray-500">
-            Submitted {formatDate(created)} ago by{" "}
+            Submitted {formatDate(created)} ago by
             <a
-              className="text-blue-600 hover:underline"
+              className="px-1 text-blue-600 hover:underline"
               href={`https://old.reddit.com/username/${author_fullname}`}
             >
               {author_fullname}
-            </a>{" "}
-            to{" "}
+            </a>
+            to
             <a
-              className="text-blue-600 hover:underline"
+              className="px-1 text-blue-600 hover:underline"
               href={`https://old.reddit.com/${subreddit_name_prefixed}`}
             >
               {subreddit_name_prefixed}
@@ -91,4 +92,4 @@ function NewsRow({ newsItem }: NewsRowInterface) {
   );
 }
 
-export { NewsRow };
+export { PostRow };

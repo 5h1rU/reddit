@@ -1,8 +1,8 @@
 import React from "react";
-import { useGetAllNews } from "../utils/news";
-import { NewsRow } from "../components/news-row";
+import { useGetAllPosts } from "../utils/posts";
+import { PostRow } from "../components/post-row";
 
-interface NewsInterface {
+interface IPost {
   data: {
     author_fullname: string;
     id: string;
@@ -16,16 +16,18 @@ interface NewsInterface {
     num_comments: number;
     score: number;
     permalink: string;
+    votePreference: string;
   };
 }
+
 function News() {
-  const news = useGetAllNews();
+  const posts = useGetAllPosts();
 
   return (
     <ol className="container mx-auto font-sans antialiased">
-      {news.map(({ data }: NewsInterface) => (
+      {posts.map(({ data }: IPost) => (
         <li key={data.id} className="flex">
-          <NewsRow newsItem={data} />
+          <PostRow postItem={data} />
         </li>
       ))}
     </ol>
