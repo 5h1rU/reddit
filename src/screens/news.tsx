@@ -15,6 +15,7 @@ interface NewsInterface {
     created: number;
     num_comments: number;
     score: number;
+    permalink: string;
   };
 }
 function News() {

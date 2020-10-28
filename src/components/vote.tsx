@@ -1,39 +1,32 @@
 import React from "react";
 import { useVote } from "../utils/hooks";
 
-function Vote({ score }: { score: number }) {
-  const { selection, setSelection, vote } = useVote(score);
-
+function Vote({ score, id }: { score: number; id: string }) {
+  const { votes, upvote, downvote, toggle } = useVote(score, id);
   return (
     <>
-      <button
-        disabled={selection === "up" && true}
-        className="m-auto text-xs"
-        onClick={() => setSelection("up")}
-      >
+      <button className="m-auto text-xs" onClick={() => upvote()}>
         <svg
-          className={
-            selection === "up"
-              ? "w-5 text-green-400 fill-current"
-              : "w-5 text-gray-400 fill-current"
-          }
+          className={`w-5 text-${
+            toggle === "up" ? "green" : "gray"
+          }-400 fill-current`}
           viewBox="0 0 20 20"
         >
           <path d="M7 10v8h6v-8h5l-8-8-8 8h5z"></path>
         </svg>
       </button>
-      <span className="my-1 text-xs font-semibold">{vote}</span>
-      <button
-        disabled={selection === "down" && true}
-        className="m-auto text-xs"
-        onClick={() => setSelection("down")}
+      <span
+        className={`my-1 text-xs font-semibold text-gray-400 text-${
+          toggle === "down" ? "blue" : toggle === "up" ? "green" : "gray"
+        }-400`}
       >
+        {votes}
+      </span>
+      <button className="m-auto text-xs" onClick={() => downvote()}>
         <svg
-          className={
-            selection === "down"
-              ? "w-5 text-blue-400 fill-current"
-              : "w-5 text-gray-400 fill-current"
-          }
+          className={`w-5 text-${
+            toggle === "down" ? "blue" : "gray"
+          }-400 fill-current`}
           viewBox="0 0 20 20"
         >
           <path d="M7 10V2h6v8h5l-8 8-8-8h5z"></path>

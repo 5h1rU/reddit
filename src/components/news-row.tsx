@@ -2,6 +2,7 @@ import React from "react";
 import { formatDate } from "../utils/misc";
 import { Vote } from "./vote";
 import placeholder from "../assets/reddit.png";
+import { Link } from "react-router-dom";
 
 interface NewsRowInterface {
   newsItem: {
@@ -16,12 +17,14 @@ interface NewsRowInterface {
     created: number;
     num_comments: number;
     score: number;
+    permalink: string;
   };
 }
 
 function NewsRow({ newsItem }: NewsRowInterface) {
   const {
     author_fullname,
+    id,
     title,
     domain,
     subreddit_name_prefixed,
@@ -31,6 +34,7 @@ function NewsRow({ newsItem }: NewsRowInterface) {
     created,
     num_comments,
     score,
+    permalink,
   } = newsItem;
 
   const placeholderFallback = () => {
@@ -43,18 +47,13 @@ function NewsRow({ newsItem }: NewsRowInterface) {
   return (
     <div className="flex w-2/3 bg-white border rounded">
       <div className="flex flex-col w-1/12 pt-2 text-center">
-        <Vote score={score}></Vote>
+        <Vote score={score} id={id}></Vote>
       </div>
       <div className="flex w-11/12 pt-2 text-left">
-        <img
-          src={placeholderFallback()}
-          width="70"
-          height="70"
-          alt={thumbnail}
-        />
+        <img src={placeholderFallback()} width="70" height="38" alt={title} />
         <div className="pl-1">
           <h2 className="text-base leading-tight text-blue-600">
-            <a href="#">{title}</a>
+            <Link to={`/post${permalink}`}>{title}</Link>
             <a
               href={`https://${domain}`}
               className="pl-1 text-xs text-gray-500"
