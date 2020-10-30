@@ -1,6 +1,11 @@
+/**
+ * This is the main screen
+ * the whole set of initial posts is loaded here
+ */
+
 import React from "react";
-import { useGetAllPosts } from "../utils/posts";
 import { PostRow } from "../components/post-row";
+import { useGetAllPosts } from "../utils/posts";
 
 interface IPost {
   data: {
@@ -12,7 +17,7 @@ interface IPost {
     thumbnail_height: number;
     thumbnail_width: number;
     thumbnail: string;
-    created: number;
+    created_utc: number;
     num_comments: number;
     score: number;
     permalink: string;
@@ -20,11 +25,11 @@ interface IPost {
   };
 }
 
-function News() {
+function Posts() {
   const posts = useGetAllPosts();
 
   return (
-    <ol className="container mx-auto font-sans antialiased">
+    <ol className="container mx-auto py-4 font-sans antialiased">
       {posts.map(({ data }: IPost) => (
         <li key={data.id} className="flex">
           <PostRow postItem={data} />
@@ -34,4 +39,4 @@ function News() {
   );
 }
 
-export default News;
+export default Posts;

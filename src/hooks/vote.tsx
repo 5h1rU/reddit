@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { PostContext } from "../post-context";
+import { PostContext } from "../context/post-context";
 
 function useVote(score: number, id: string) {
   const [votes, setVotes] = React.useState<number>(score);

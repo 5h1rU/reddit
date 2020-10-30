@@ -1,7 +1,19 @@
+/**
+ * This context store the local votes data
+ * the main goal here is preserve votes status even if
+ * the user navigate between screens.
+ *
+ * Note: This is not a persistent context, the whole data
+ * will be wiped each time a refresh happens
+ */
+
+
 import React, { Dispatch } from "react";
 
 interface IState {
-  [key: string]: { vote: "up" | "down" | "none" };
+  [key: string]: {
+    vote: "up" | "down" | "none";
+  };
 }
 
 interface IContextProps {

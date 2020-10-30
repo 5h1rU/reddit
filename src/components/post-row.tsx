@@ -1,8 +1,12 @@
+/**
+ * This component render all the post details as a row in the UI
+ */
+
 import React from "react";
-import { formatDate } from "../utils/misc";
-import { Vote } from "./vote";
-import placeholder from "../assets/reddit.png";
 import { Link } from "react-router-dom";
+import TimeAgo from "timeago-react";
+import placeholder from "../assets/reddit.png";
+import { Vote } from "./vote";
 
 interface IPostRow {
   postItem: {
@@ -14,11 +18,10 @@ interface IPostRow {
     thumbnail_height: number;
     thumbnail_width: number;
     thumbnail: string;
-    created: number;
+    created_utc: number;
     num_comments: number;
     score: number;
     permalink: string;
-    votePreference: string;
   };
 }
 
@@ -29,21 +32,17 @@ function PostRow({ postItem }: IPostRow) {
     title,
     domain,
     subreddit_name_prefixed,
-    thumbnail_height,
-    thumbnail_width,
     thumbnail,
-    created,
+    created_utc,
     num_comments,
     score,
     permalink,
   } = postItem;
 
   const placeholderFallback = () => {
-    if (thumbnail !== "self" || "nsfw" || "default") {
-      return thumbnail;
-    } else {
-      return placeholder;
-    }
+    return !["self", "nsfw", "default", "(unknown)"].includes(thumbnail)
+      ? thumbnail
+      : placeholder;
   };
   return (
     <div className="flex w-full bg-white border rounded">
@@ -51,7 +50,13 @@ function PostRow({ postItem }: IPostRow) {
         <Vote score={score} id={id}></Vote>
       </div>
       <div className="flex w-11/12 pt-2 text-left">
-        <img src={placeholderFallback()} width="70" height="38" alt={title} />
+        <img
+          className="w-1/12"
+          src={placeholderFallback()}
+          width="70"
+          height="38"
+          alt={title}
+        />
         <div className="pl-1">
           <h2 className="text-base leading-tight text-blue-600">
             <Link to={`/post${permalink}`}>{title}</Link>
@@ -63,7 +68,8 @@ function PostRow({ postItem }: IPostRow) {
             </a>
           </h2>
           <small className="text-gray-500">
-            Submitted {formatDate(created)} ago by
+            Submitted {<TimeAgo datetime={new Date(created_utc * 1000)} />} ago
+            by
             <a
               className="px-1 text-blue-600 hover:underline"
               href={`https://old.reddit.com/username/${author_fullname}`}
@@ -79,12 +85,12 @@ function PostRow({ postItem }: IPostRow) {
             </a>
           </small>
           <div>
-            <a
+            <Link
               className="text-xs text-gray-700 text-bold hover:underline"
-              href="google"
+              to={`/post${permalink}`}
             >
               {num_comments} comments
-            </a>
+            </Link>
           </div>
         </div>
       </div>

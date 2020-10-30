@@ -1,11 +1,16 @@
+/**
+ * This component is in charge of handle the votes
+ * most of the logic is handled by useVote hook
+ */
 import React from "react";
-import { useVote } from "../utils/hooks";
+import { useVote } from "../hooks/vote";
+import { kFormatter } from "../utils/misc";
 
 function Vote({ score, id }: { score: number; id: string }) {
   const { votes, upvote, downvote, toggle } = useVote(score, id);
   return (
     <>
-      <button className="m-auto text-xs" onClick={() => upvote()}>
+      <button className="m-auto text-xs" onClick={upvote} data-testId="upvote">
         <svg
           className={`w-5 text-${
             toggle === "up" ? "green" : "gray"
@@ -19,10 +24,15 @@ function Vote({ score, id }: { score: number; id: string }) {
         className={`my-1 text-xs font-semibold text-gray-400 text-${
           toggle === "down" ? "blue" : toggle === "up" ? "green" : "gray"
         }-400`}
+        data-testId="score"
       >
-        {votes || score}
+        {kFormatter(Number(votes || score))}
       </span>
-      <button className="m-auto text-xs" onClick={() => downvote()}>
+      <button
+        className="m-auto text-xs"
+        onClick={downvote}
+        data-testId="downvote"
+      >
         <svg
           className={`w-5 text-${
             toggle === "down" ? "blue" : "gray"

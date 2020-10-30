@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "../app";
 
-test('renders learn react link', () => {
+test("renders learn react link", async () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const root = await screen.findByTestId("app-root");
+  expect(root).toBeInTheDocument();
 });
