@@ -10,7 +10,7 @@ function Vote({ score, id }: { score: number; id: string }) {
   const { votes, upvote, downvote, toggle } = useVote(score, id);
   return (
     <>
-      <button className="m-auto text-xs" onClick={upvote} data-testId="upvote">
+      <button className="m-auto text-xs" onClick={upvote} data-testid="upvote">
         <svg
           className={`w-5 text-${
             toggle === "up" ? "green" : "gray"
@@ -24,14 +24,14 @@ function Vote({ score, id }: { score: number; id: string }) {
         className={`my-1 text-xs font-semibold text-gray-400 text-${
           toggle === "down" ? "blue" : toggle === "up" ? "green" : "gray"
         }-400`}
-        data-testId="score"
+        data-testid="score"
       >
         {kFormatter(Number(votes || score))}
       </span>
       <button
         className="m-auto text-xs"
         onClick={downvote}
-        data-testId="downvote"
+        data-testid="downvote"
       >
         <svg
           className={`w-5 text-${

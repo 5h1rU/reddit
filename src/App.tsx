@@ -7,7 +7,7 @@ import Posts from "./screens/posts";
 
 function App() {
   return (
-    <div className="App" data-testId="app-root">
+    <div className="App" data-testid="app-root">
       <PostContextProvider>
         <CommentContextProvider>
           <Router>
