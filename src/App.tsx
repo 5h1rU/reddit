@@ -1,11 +1,25 @@
 import React from "react";
-import News from "./screens/news";
-import "./styles/App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { CommentContextProvider } from "./context/comment-context";
+import { PostContextProvider } from "./context/post-context";
+import Post from "./screens/post";
+import Posts from "./screens/posts";
 
 function App() {
   return (
-    <div className="App">
-      <News></News>
+    <div className="App" data-testid="app-root">
+      <PostContextProvider>
+        <CommentContextProvider>
+          <Router>
+            <Route exact path="/">
+              <Posts />
+            </Route>
+            <Route path="/post/:permalink">
+              <Post />
+            </Route>
+          </Router>
+        </CommentContextProvider>
+      </PostContextProvider>
     </div>
   );
 }
